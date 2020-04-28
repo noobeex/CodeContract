@@ -1,0 +1,29 @@
+<Project>
+
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <RepositoryUrl>https://github.com/noobeex/CodeContract</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Title>Code contract</Title>
+    <Authors>Noobeex</Authors>
+    <Copyright>Noobeex</Copyright>
+    <PackageTags>Code contract</PackageTags>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="$(RepoRoot)/LICENSE" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>
