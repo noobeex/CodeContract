@@ -90,7 +90,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void RequiresWithArgNameNameAndMessage_TrueCondition_DoesNotThrowException(string argName, string message)
+        public void RequiresWithArgNameNameAndMessage_TrueCondition_DoesNotThrowException(string argName,
+            string message)
         {
             Arguments.Requires(true, argName, message);
         }
@@ -175,7 +176,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void ForbidsWithArgNameNameAndMessage_FalseCondition_DoesNotThrowException(string argName, string message)
+        public void ForbidsWithArgNameNameAndMessage_FalseCondition_DoesNotThrowException(string argName,
+            string message)
         {
             Arguments.Forbids(false, argName, message);
         }
@@ -364,7 +366,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void NotNullOrEmptyWith_hArgNameNameAndMessage_NotNullOrEmpty_DoesNotThrowException(string argName, string message)
+        public void NotNullOrEmptyWith_hArgNameNameAndMessage_NotNullOrEmpty_DoesNotThrowException(string argName,
+            string message)
         {
             Arguments.NotNullOrEmpty(NotEmptyString, argName, message);
         }
@@ -488,7 +491,7 @@ namespace Noobeex.CodeContract.Tests
         [TestMethod]
         public void NotEmpty_NullEnumerable_ReturnsNull()
         {
-            var result = Arguments.NotEmpty((IEnumerable<string>)null);
+            var result = Arguments.NotEmpty((IEnumerable<string>?)null);
 
             Assert.IsNull(result);
         }
@@ -515,7 +518,7 @@ namespace Noobeex.CodeContract.Tests
         [DataRow("ArgName")]
         public void NotEmptyWithArgName_NullEnumerable_ReturnsNull(string argName)
         {
-            var result = Arguments.NotEmpty((IEnumerable<string>)null, argName);
+            var result = Arguments.NotEmpty((IEnumerable<string>?)null, argName);
 
             Assert.IsNull(result);
         }
@@ -557,7 +560,7 @@ namespace Noobeex.CodeContract.Tests
         [DataRow("ArgName", "The message")]
         public void NotEmptyWithArgNameAndMessage_NullEnumerable_ReturnsNull(string argName, string message)
         {
-            var result = Arguments.NotEmpty((IEnumerable<string>)null, argName, message);
+            var result = Arguments.NotEmpty((IEnumerable<string>?)null, argName, message);
 
             Assert.IsNull(result);
         }
@@ -585,7 +588,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "The message")]
-        public void NotEmptyWithArgNameAndMessage_NotEmptyEnumerable_ReturnsCollectionCopy(string argName, string message)
+        public void NotEmptyWithArgNameAndMessage_NotEmptyEnumerable_ReturnsCollectionCopy(string argName,
+            string message)
         {
             var result = Arguments.NotEmpty((IEnumerable<string>)NotEmptyCollection, argName, message);
 
@@ -601,13 +605,16 @@ namespace Noobeex.CodeContract.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NotNullOrEmpty_NullEnumerable_ThrowsException()
         {
-            Arguments.NotNullOrEmpty((IEnumerable<string>)null);
+            Arguments.NotNullOrEmpty((IEnumerable<string>?)null);
         }
 
         [TestMethod]
-        public void NotNullOrEmpty_NotEmptyEnumerable_DoesNotThrowException()
+        public void NotNullOrEmpty_NotEmptyEnumerable_ReturnsCollectionCopy()
         {
-            Arguments.NotNullOrEmpty((IEnumerable<string>)NotEmptyCollection);
+            var result = Arguments.NotNullOrEmpty((IEnumerable<string>)NotEmptyCollection);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.SequenceEqual(NotEmptyCollection));
         }
 
         [TestMethod]
@@ -625,7 +632,7 @@ namespace Noobeex.CodeContract.Tests
         {
             try
             {
-                Arguments.NotNullOrEmpty((IEnumerable<string>)null, argName);
+                Arguments.NotNullOrEmpty((IEnumerable<string>?)null, argName);
             }
             catch (ArgumentNullException ex)
             {
@@ -641,9 +648,12 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null)]
         [DataRow("")]
         [DataRow("ArgName")]
-        public void NotNullOrEmptyWithArgName_NotEmptyEnumerable_DoesNotThrowException(string argName)
+        public void NotNullOrEmptyWithArgName_NotEmptyEnumerable_ReturnsCollectionCopy(string argName)
         {
-            Arguments.NotNullOrEmpty((IEnumerable<string>)NotEmptyCollection, argName);
+            var result = Arguments.NotNullOrEmpty((IEnumerable<string>)NotEmptyCollection, argName);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.SequenceEqual(NotEmptyCollection));
         }
 
         [TestMethod]
@@ -675,7 +685,7 @@ namespace Noobeex.CodeContract.Tests
         {
             try
             {
-                Arguments.NotNullOrEmpty((IEnumerable<string>)null, argName, message);
+                Arguments.NotNullOrEmpty((IEnumerable<string>?)null, argName, message);
             }
             catch (ArgumentNullException ex)
             {
@@ -696,16 +706,21 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void NotNullOrEmptyWithArgNameNameAndMessage_NotEmptyEnumerable_DoesNotThrowException(string argName, string message)
+        public void NotNullOrEmptyWithArgNameNameAndMessage_NotEmptyEnumerable_ReturnsCollectionCopy(string argName,
+            string message)
         {
-            Arguments.NotNullOrEmpty((IEnumerable<string>)NotEmptyCollection, argName, message);
+            var result = Arguments.NotNullOrEmpty((IEnumerable<string>)NotEmptyCollection, argName, message);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.SequenceEqual(NotEmptyCollection));
         }
 
         [DataTestMethod]
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void NotNullOrEmptyWithArgNameNameAndMessage_EmptyEnumerable_ThrowsException(string argName, string message)
+        public void NotNullOrEmptyWithArgNameNameAndMessage_EmptyEnumerable_ThrowsException(string argName,
+            string message)
         {
             try
             {
@@ -733,7 +748,7 @@ namespace Noobeex.CodeContract.Tests
         [TestMethod]
         public void NotEmpty_NullCollection_DoesNotThrowException()
         {
-            Arguments.NotEmpty((ICollection<string>)null);
+            Arguments.NotEmpty((ICollection<string>?)null);
         }
 
         [TestMethod]
@@ -755,7 +770,7 @@ namespace Noobeex.CodeContract.Tests
         [DataRow("ArgName")]
         public void NotEmptyWithArgName_NullCollection_DoesNotThrowException(string argName)
         {
-            Arguments.NotEmpty((ICollection<string>)null, argName);
+            Arguments.NotEmpty((ICollection<string>?)null, argName);
         }
 
         [DataTestMethod]
@@ -792,7 +807,7 @@ namespace Noobeex.CodeContract.Tests
         [DataRow("ArgName", "The message")]
         public void NotEmptyWithArgNameAndMessage_NullCollection_DoesNotThrowException(string argName, string message)
         {
-            Arguments.NotEmpty((ICollection<string>)null, argName, message);
+            Arguments.NotEmpty((ICollection<string>?)null, argName, message);
         }
 
         [DataTestMethod]
@@ -818,7 +833,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "The message")]
-        public void NotEmptyWithArgNameAndMessage_NotEmptyCollection_DoesNotThrowException(string argName, string message)
+        public void NotEmptyWithArgNameAndMessage_NotEmptyCollection_DoesNotThrowException(string argName,
+            string message)
         {
             Arguments.NotEmpty((ICollection<string>)NotEmptyCollection, argName, message);
         }
@@ -831,7 +847,7 @@ namespace Noobeex.CodeContract.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NotNullOrEmpty_NullCollection_ThrowsException()
         {
-            Arguments.NotNullOrEmpty((ICollection<string>)null);
+            Arguments.NotNullOrEmpty((ICollection<string>?)null);
         }
 
         [TestMethod]
@@ -855,7 +871,7 @@ namespace Noobeex.CodeContract.Tests
         {
             try
             {
-                Arguments.NotNullOrEmpty((ICollection<string>)null, argName);
+                Arguments.NotNullOrEmpty((ICollection<string>?)null, argName);
             }
             catch (ArgumentNullException ex)
             {
@@ -905,7 +921,7 @@ namespace Noobeex.CodeContract.Tests
         {
             try
             {
-                Arguments.NotNullOrEmpty((ICollection<string>)null, argName, message);
+                Arguments.NotNullOrEmpty((ICollection<string>?)null, argName, message);
             }
             catch (ArgumentNullException ex)
             {
@@ -926,7 +942,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void NotNullOrEmptyWithArgNameNameAndMessage_NotEmptyCollection_DoesNotThrowException(string argName, string message)
+        public void NotNullOrEmptyWithArgNameNameAndMessage_NotEmptyCollection_DoesNotThrowException(string argName,
+            string message)
         {
             Arguments.NotNullOrEmpty((ICollection<string>)NotEmptyCollection, argName, message);
         }
@@ -935,7 +952,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void NotNullOrEmptyWithArgNameNameAndMessage_EmptyCollection_ThrowsException(string argName, string message)
+        public void NotNullOrEmptyWithArgNameNameAndMessage_EmptyCollection_ThrowsException(string argName,
+            string message)
         {
             try
             {
@@ -963,7 +981,7 @@ namespace Noobeex.CodeContract.Tests
         [TestMethod]
         public void NotEmpty_NullReadOnlyCollection_DoesNotThrowException()
         {
-            Arguments.NotEmpty((IReadOnlyCollection<string>)null);
+            Arguments.NotEmpty((IReadOnlyCollection<string>?)null);
         }
 
         [TestMethod]
@@ -985,7 +1003,7 @@ namespace Noobeex.CodeContract.Tests
         [DataRow("ArgName")]
         public void NotEmptyWithArgName_NullReadOnlyCollection_DoesNotThrowException(string argName)
         {
-            Arguments.NotEmpty((IReadOnlyCollection<string>)null, argName);
+            Arguments.NotEmpty((IReadOnlyCollection<string>?)null, argName);
         }
 
         [DataTestMethod]
@@ -1020,16 +1038,18 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "The message")]
-        public void NotEmptyWithArgNameAndMessage_NullReadOnlyCollection_DoesNotThrowException(string argName, string message)
+        public void NotEmptyWithArgNameAndMessage_NullReadOnlyCollection_DoesNotThrowException(string argName,
+            string message)
         {
-            Arguments.NotEmpty((IReadOnlyCollection<string>)null, argName, message);
+            Arguments.NotEmpty((IReadOnlyCollection<string>?)null, argName, message);
         }
 
         [DataTestMethod]
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "The message")]
-        public void NotEmptyWithArgNameAndMessage_EmptyReadOnlyCollection_ThrowsException(string argName, string message)
+        public void NotEmptyWithArgNameAndMessage_EmptyReadOnlyCollection_ThrowsException(string argName,
+            string message)
         {
             try
             {
@@ -1048,7 +1068,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "The message")]
-        public void NotEmptyWithArgNameAndMessage_NotEmptyReadOnlyCollection_DoesNotThrowException(string argName, string message)
+        public void NotEmptyWithArgNameAndMessage_NotEmptyReadOnlyCollection_DoesNotThrowException(string argName,
+            string message)
         {
             Arguments.NotEmpty((IReadOnlyCollection<string>)NotEmptyCollection, argName, message);
         }
@@ -1061,7 +1082,7 @@ namespace Noobeex.CodeContract.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void NotNullOrEmpty_NullReadOnlyCollection_ThrowsException()
         {
-            Arguments.NotNullOrEmpty((IReadOnlyCollection<string>)null);
+            Arguments.NotNullOrEmpty((IReadOnlyCollection<string>?)null);
         }
 
         [TestMethod]
@@ -1085,7 +1106,7 @@ namespace Noobeex.CodeContract.Tests
         {
             try
             {
-                Arguments.NotNullOrEmpty((IReadOnlyCollection<string>)null, argName);
+                Arguments.NotNullOrEmpty((IReadOnlyCollection<string>?)null, argName);
             }
             catch (ArgumentNullException ex)
             {
@@ -1131,11 +1152,12 @@ namespace Noobeex.CodeContract.Tests
         [DataRow("", "")]
         [DataRow("ArgName", "Message")]
         [DataRow("ArgName", "Some message")]
-        public void NotNullOrEmptyWithArgNameAndMessage_NullReadOnlyCollection_ThrowsException(string argName, string message)
+        public void NotNullOrEmptyWithArgNameAndMessage_NullReadOnlyCollection_ThrowsException(string argName,
+            string message)
         {
             try
             {
-                Arguments.NotNullOrEmpty((IReadOnlyCollection<string>)null, argName, message);
+                Arguments.NotNullOrEmpty((IReadOnlyCollection<string>?)null, argName, message);
             }
             catch (ArgumentNullException ex)
             {
@@ -1156,7 +1178,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void NotNullOrEmptyWithArgNameNameAndMessage_NotEmptyReadOnlyCollection_DoesNotThrowException(string argName, string message)
+        public void NotNullOrEmptyWithArgNameNameAndMessage_NotEmptyReadOnlyCollection_DoesNotThrowException(
+            string argName, string message)
         {
             Arguments.NotNullOrEmpty((IReadOnlyCollection<string>)NotEmptyCollection, argName, message);
         }
@@ -1165,7 +1188,8 @@ namespace Noobeex.CodeContract.Tests
         [DataRow(null, null)]
         [DataRow("", "")]
         [DataRow("ArgName", "ArgName")]
-        public void NotNullOrEmptyWithArgNameNameAndMessage_EmptyReadOnlyCollection_ThrowsException(string argName, string message)
+        public void NotNullOrEmptyWithArgNameNameAndMessage_EmptyReadOnlyCollection_ThrowsException(string argName,
+            string message)
         {
             try
             {

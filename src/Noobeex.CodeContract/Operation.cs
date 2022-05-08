@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Noobeex.CodeContract
 {
@@ -19,7 +20,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="false" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Requires(bool condition)
+        public static void Requires([DoesNotReturnIf(false)] bool condition)
         {
             if (!condition)
             {
@@ -38,7 +39,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="false" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Requires(bool condition, string message)
+        public static void Requires([DoesNotReturnIf(false)] bool condition, string? message)
         {
             if (!condition)
             {
@@ -56,7 +57,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="true" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Forbids(bool condition)
+        public static void Forbids([DoesNotReturnIf(true)] bool condition)
         {
             Requires(!condition);
         }
@@ -72,7 +73,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="true" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Forbids(bool condition, string message)
+        public static void Forbids([DoesNotReturnIf(true)] bool condition, string? message)
         {
             Requires(!condition, message);
         }
