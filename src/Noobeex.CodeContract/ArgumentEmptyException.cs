@@ -32,10 +32,9 @@ namespace Noobeex.CodeContract
         /// <param name="paramName">
         /// The name of the parameter that caused the current exception.
         /// </param>
-        public ArgumentEmptyException(string paramName)
+        public ArgumentEmptyException(string? paramName)
             : base(ErrorMessage, paramName)
         {
-
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace Noobeex.CodeContract
         /// parameter is not a null reference, the current exception is raised in a catch
         /// block that handles the inner exception.
         /// </param>
-        public ArgumentEmptyException(string paramName, Exception innerException)
+        public ArgumentEmptyException(string? paramName, Exception innerException)
             : base(ErrorMessage, paramName, innerException)
         {
         }
@@ -63,7 +62,7 @@ namespace Noobeex.CodeContract
         /// <param name="message">
         /// The error message that explains the reason for the exception.
         /// </param>
-        public ArgumentEmptyException(string paramName, string message)
+        public ArgumentEmptyException(string? paramName, string? message)
             : base(message, paramName)
         {
         }
@@ -82,7 +81,7 @@ namespace Noobeex.CodeContract
         /// parameter is not a null reference, the current exception is raised in a catch
         /// block that handles the inner exception.
         /// </param>
-        public ArgumentEmptyException(string paramName, string message, Exception innerException)
+        public ArgumentEmptyException(string? paramName, string? message, Exception innerException)
             : base(message, paramName, innerException)
         {
         }

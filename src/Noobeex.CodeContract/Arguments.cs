@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Noobeex.CodeContract
@@ -21,7 +22,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="false" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Requires(bool condition)
+        public static void Requires([DoesNotReturnIf(false)] bool condition)
         {
             Requires(condition, null);
         }
@@ -40,7 +41,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="false" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Requires(bool condition, string message)
+        public static void Requires([DoesNotReturnIf(false)] bool condition, string? message)
         {
             Requires(condition, message, null);
         }
@@ -63,7 +64,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="false" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Requires(bool condition, string message, string argName)
+        public static void Requires([DoesNotReturnIf(false)] bool condition, string? message, string? argName)
         {
             if (!condition)
             {
@@ -81,7 +82,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="true" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Forbids(bool condition)
+        public static void Forbids([DoesNotReturnIf(true)] bool condition)
         {
             Forbids(condition, null);
         }
@@ -100,7 +101,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="true" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Forbids(bool condition, string message)
+        public static void Forbids([DoesNotReturnIf(true)] bool condition, string? message)
         {
             Forbids(condition, message, null);
         }
@@ -123,7 +124,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="condition"/> is <see langword="true" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void Forbids(bool condition, string message, string argName)
+        public static void Forbids([DoesNotReturnIf(true)] bool condition, string? message, string? argName)
         {
             if (condition)
             {
@@ -140,7 +141,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is <see langword="null" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNull(object argument)
+        public static void NotNull([NotNull] object? argument)
         {
             NotNull(argument, null);
         }
@@ -157,7 +158,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is <see langword="null" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNull(object argument, string argName)
+        public static void NotNull([NotNull] object? argument, string? argName)
         {
             NotNull(argument, argName, null);
         }
@@ -178,7 +179,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is <see langword="null" />.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNull(object argument, string argName, string message)
+        public static void NotNull([NotNull] object? argument, string? argName, string? message)
         {
             if (argument == null)
             {
@@ -199,7 +200,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is empty.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty(string argument)
+        public static void NotNullOrEmpty([NotNull] string? argument)
         {
             NotNullOrEmpty(argument, null);
         }
@@ -218,7 +219,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is empty.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty(string argument, string argName)
+        public static void NotNullOrEmpty([NotNull] string? argument, string? argName)
         {
             NotNullOrEmpty(argument, argName, null);
         }
@@ -241,7 +242,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is empty.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty(string argument, string argName, string message)
+        public static void NotNullOrEmpty([NotNull] string? argument, string? argName, string? message)
         {
             NotNull(argument, argName, message);
             NotEmpty(argument, argName, message);
@@ -261,7 +262,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is empty.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty(string argument)
+        public static void NotEmpty(string? argument)
         {
             NotEmpty(argument, null);
         }
@@ -281,7 +282,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is empty.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty(string argument, string argName)
+        public static void NotEmpty(string? argument, string? argName)
         {
             NotEmpty(argument, argName, null);
         }
@@ -305,7 +306,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is empty.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty(string argument, string argName, string message)
+        public static void NotEmpty(string? argument, string? argName, string? message)
         {
             if (argument == string.Empty)
             {
@@ -334,7 +335,8 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static IList<T> NotEmpty<T>(IEnumerable<T> argument)
+        [return: NotNullIfNotNull("argument")]
+        public static IList<T>? NotEmpty<T>(IEnumerable<T>? argument)
         {
             return NotEmpty(argument, null);
         }
@@ -361,7 +363,8 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static IList<T> NotEmpty<T>(IEnumerable<T> argument, string argName)
+        [return: NotNullIfNotNull("argument")]
+        public static IList<T>? NotEmpty<T>(IEnumerable<T>? argument, string? argName)
         {
             return NotEmpty(argument, argName, null);
         }
@@ -392,7 +395,8 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static IList<T> NotEmpty<T>(IEnumerable<T> argument, string argName, string message)
+        [return: NotNullIfNotNull("argument")]
+        public static IList<T>? NotEmpty<T>(IEnumerable<T>? argument, string? argName, string? message)
         {
             if (argument == null)
             {
@@ -427,7 +431,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static IList<T> NotNullOrEmpty<T>(IEnumerable<T> argument)
+        public static IList<T> NotNullOrEmpty<T>([NotNull] IEnumerable<T>? argument)
         {
             NotNull(argument);
             return NotEmpty(argument);
@@ -452,7 +456,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static IList<T> NotNullOrEmpty<T>(IEnumerable<T> argument, string argName)
+        public static IList<T> NotNullOrEmpty<T>([NotNull] IEnumerable<T>? argument, string argName)
         {
             NotNull(argument, argName);
             return NotEmpty(argument, argName);
@@ -481,7 +485,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static IList<T> NotNullOrEmpty<T>(IEnumerable<T> argument, string argName, string message)
+        public static IList<T> NotNullOrEmpty<T>([NotNull] IEnumerable<T>? argument, string argName, string message)
         {
             NotNull(argument, argName, message);
             return NotEmpty(argument, argName, message);
@@ -502,7 +506,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty<T>(ICollection<T> argument)
+        public static void NotEmpty<T>(ICollection<T>? argument)
         {
             NotEmpty(argument, null);
         }
@@ -523,7 +527,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty<T>(ICollection<T> argument, string argName)
+        public static void NotEmpty<T>(ICollection<T>? argument, string? argName)
         {
             NotEmpty(argument, argName, null);
         }
@@ -548,7 +552,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty<T>(ICollection<T> argument, string argName, string message)
+        public static void NotEmpty<T>(ICollection<T>? argument, string? argName, string? message)
         {
             if (argument == null)
             {
@@ -575,7 +579,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(ICollection<T> argument)
+        public static void NotNullOrEmpty<T>([NotNull] ICollection<T>? argument)
         {
             NotNull(argument);
             NotEmpty(argument);
@@ -596,7 +600,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(ICollection<T> argument, string argName)
+        public static void NotNullOrEmpty<T>([NotNull] ICollection<T>? argument, string? argName)
         {
             NotNull(argument, argName);
             NotEmpty(argument, argName);
@@ -621,7 +625,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(ICollection<T> argument, string argName, string message)
+        public static void NotNullOrEmpty<T>([NotNull] ICollection<T>? argument, string? argName, string? message)
         {
             NotNull(argument, argName, message);
             NotEmpty(argument, argName, message);
@@ -642,7 +646,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty<T>(IReadOnlyCollection<T> argument)
+        public static void NotEmpty<T>(IReadOnlyCollection<T>? argument)
         {
             NotEmpty(argument, null);
         }
@@ -663,7 +667,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty<T>(IReadOnlyCollection<T> argument, string argName)
+        public static void NotEmpty<T>(IReadOnlyCollection<T>? argument, string? argName)
         {
             NotEmpty(argument, argName, null);
         }
@@ -688,7 +692,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotEmpty<T>(IReadOnlyCollection<T> argument, string argName, string message)
+        public static void NotEmpty<T>(IReadOnlyCollection<T>? argument, string? argName, string? message)
         {
             if (argument == null)
             {
@@ -715,7 +719,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(IReadOnlyCollection<T> argument)
+        public static void NotNullOrEmpty<T>([NotNull] IReadOnlyCollection<T>? argument)
         {
             NotNull(argument);
             NotEmpty(argument);
@@ -736,7 +740,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(IReadOnlyCollection<T> argument, string argName)
+        public static void NotNullOrEmpty<T>([NotNull] IReadOnlyCollection<T>? argument, string? argName)
         {
             NotNull(argument, argName);
             NotEmpty(argument, argName);
@@ -761,7 +765,7 @@ namespace Noobeex.CodeContract
         /// Thrown if the specified <paramref name="argument"/> is an empty collection.
         /// </exception>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(IReadOnlyCollection<T> argument, string argName, string message)
+        public static void NotNullOrEmpty<T>([NotNull] IReadOnlyCollection<T>? argument, string? argName, string? message)
         {
             NotNull(argument, argName, message);
             NotEmpty(argument, argName, message);
